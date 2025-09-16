@@ -109,7 +109,7 @@ while True:
         # SI el tiempo actual restado al momento donde se guardo el ultimo envio es mayor o igual al intervalo se ejecuta lo siguiente
         if ahora - ultimo_envio >= INTERVALO:
             ultimo_envio = ahora # nuevo tiempo de ultimo envio
-            enviar_mensaje_telegram("Se detecto gas! \n a las: {}".format(hora)) #envio de mensaje
+            enviar_mensaje_telegram("Se detecto gas! \na las: {}".format(hora)) #envio de mensaje
     else:
         buzzer.duty(0)        # Mantiene buzzer apagado si no hay fuga potencial de gas
         oled.fill(0)          # Si ya no se detecta fuga de gas, borra el texto 
