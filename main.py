@@ -1,6 +1,7 @@
 import machine
-from machine import Pin, PWM, ADC
+from machine import Pin, PWM, ADC,I2C
 import time
+import ssd1306
 import network
 import urequests
 import ntptime
@@ -13,8 +14,8 @@ Ciudad: Guayaquil
 """
 
 # CONFIGURACION DE WI-FI 
-SSID = "nombre de red a usar"
-PASSWORD = "contraseña de red a usar"
+SSID = "NOMBRE DE RED"
+PASSWORD = "CONTRASEÑA DE RED"
 
 t = utime.localtime()
 hora = "{:02d}:{:02d}".format(t[3], t[4])
@@ -24,12 +25,21 @@ ultimo_envio = 0
 INTERVALO = 15
 
 # VARIABLES DE ENTORNO PARA USAR LA API BOT DE TELEGRAM 
-TOKEN = "(el token que te da bot father)"
-CHAT_ID = "(el id del chat que te da telegram y la API de bot father en telegram)"
+TOKEN = "TOKEN QUE PROPORCIONA BOT FATHER "
+CHAT_ID = "ID DEL CHAT QUE DA EL JSON DE NUESTRO BOT EN TELEGRAM"
 
 # Pin del sensor de gas (ADC) y buzzer (PWM)
 PIN_SENSOR_DE_GAS = 34
 PIN_BUZZER = 23
+
+# CONFIGURAR PINES PARA EL USO DE LA PANTALLA OLED POR I2C
+i2c = I2C(-1, scl=Pin(22), sda=Pin(21))
+# OBJETO PANTALLA (oled)
+oled = ssd1306.SSD1306_I2C(128, 64, i2c)
+
+# limpia la pantalla si tenia valores previos 
+oled.fill(0)
+oled.show()
 
 # Configuración (sensor de gas)
 sensor_de_gas = ADC(Pin(PIN_SENSOR_DE_GAS))
@@ -52,11 +62,11 @@ def conectar_a_internet(ssid, password):
     # si no hay conexion establecida, intenta conectar a una red (la previamente establecida en aquellas variables del inicio)
     if not wlan.isconnected():
         print('Conectando a la red...')
-        wlan.connect(ssid, password)
+        wlan.connect(SSID, PASSWORD)
         while not wlan.isconnected():
             time.sleep(1)
     # muestra informacion una vez conectado 
-    print('Conectado a', ssid)
+    print('Conectado a', SSID)
     print('Dirección IP:', wlan.ifconfig()[0])
 
 
@@ -92,12 +102,18 @@ while True:
         buzzer.duty(256)      # volumen  
         time.sleep(0.5)       # pequeño delay
         buzzer.duty(0)        # silencio momentaneo
-        ahora = time.time()
+        ahora = time.time()   # obtiene el tiempo actual 
+        # Mostrar texto en la pantalla OLED
+        oled.text("SE DETECTO GAS!", 5, 32,)
+        oled.show()
+        # SI el tiempo actual restado al momento donde se guardo el ultimo envio es mayor o igual al intervalo se ejecuta lo siguiente
         if ahora - ultimo_envio >= INTERVALO:
-            enviar_mensaje_telegram("Se detecto gas! , a la hora: {}".format(hora))
-            ultimo_envio = ahora
+            enviar_mensaje_telegram("Se detecto gas! , a la hora: {}".format(hora)) #envio de mensaje
+            ultimo_envio = ahora # nuevo tiempo de ultimo envio
     else:
         buzzer.duty(0)        # Mantiene buzzer apagado si no hay fuga potencial de gas
+        oled.fill(0)          # Si ya no se detecta fuga de gas, borra el texto 
+        oled.show()
 
-    # tiempo de espera a la proxima ejecucion del bucle 
+    # tiempo de espera a la proxima ejecucion del bucle de verificacion
     time.sleep(1)
