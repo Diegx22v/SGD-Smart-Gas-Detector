@@ -1,6 +1,6 @@
 # 🚨 SGD Smart Gas Detector  
 
-_Un sistema de detección de gases con **Python** y la placa **PlayIoT**, diseñado para monitorear la calidad del aire y generar alertas en caso de niveles peligrosos._  
+_Un sistema de detección de gases con **Python** y la placa **PlayIoT**, diseñado para monitorear la calidad del aire y generar alertas en caso de niveles peligrosos de gas en el aire._  
 
 ---
 
@@ -37,4 +37,4 @@ Utiliza sensores conectados a la **placa PlayIoT** y procesa los datos con **Pyt
 
 ## 📧 Contacto  
 👤 Autor: [Diegx22v](https://github.com/Diegx22v)  
-💬 Si tienes dudas o sugerencias, abre un *
+💬 Si tienes dudas o sugerencias, abre un issue
