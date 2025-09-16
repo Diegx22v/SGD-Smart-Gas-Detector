@@ -21,6 +21,7 @@ Utiliza sensores conectados a la **placa PlayIoT** y procesa los datos con **Pyt
 ## ✨ Características  
 ✔️ Lectura mediante sensor de gas  
 ✔️ Procesamiento de valores en Python  
+✔️ Muestra mensaje de alerta por la pantalla OLED (ef03155)
 ✔️ Alertas por sonido 🔊 y mensajes mediante IoT 🌐  
 ✔️ Integración con servicios externos (ej. **Telegram**)  
 
@@ -32,6 +33,7 @@ Utiliza sensores conectados a la **placa PlayIoT** y procesa los datos con **Pyt
 |--------------------|----------------|
 | `main.py`          | Script principal de detección, control y notificación |
 | `README.md`        | Documentación del proyecto |
+| `ssd1306.py`        |  Libreria para el uso de la pantalla OLED |
 
 ---
 
