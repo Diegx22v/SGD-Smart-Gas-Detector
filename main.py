@@ -20,7 +20,7 @@ PASSWORD = "CONTRASEÑA DE RED"
 t = utime.localtime()
 hora = "{:02d}:{:02d}".format(t[3], t[4])
 
-# Variable para ejecutar solo una vez el envio de mensaje durante un intervalo
+# Variable para ejecutar solo una vez el envio de mensaje durante un intervalo de tiempo (en segundos)
 ultimo_envio = 0
 INTERVALO = 15
 
